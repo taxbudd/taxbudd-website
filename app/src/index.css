@@ -1,0 +1,320 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 220 30% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 30% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 30% 10%;
+    --primary: 220 60% 25%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 20% 96%;
+    --secondary-foreground: 220 30% 10%;
+    --muted: 220 20% 96%;
+    --muted-foreground: 220 15% 45%;
+    --accent: 43 80% 50%;
+    --accent-foreground: 220 30% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 15% 90%;
+    --input: 220 15% 90%;
+    --ring: 43 80% 50%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-white text-navy-900 font-sans antialiased;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  /* Glassmorphism Card */
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-xl border border-white/20 rounded-3xl;
+    box-shadow: 
+      0 4px 24px rgba(0, 0, 0, 0.04),
+      0 1px 2px rgba(0, 0, 0, 0.02),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  }
+  
+  .glass-card-dark {
+    @apply bg-navy-900/80 backdrop-blur-xl border border-white/10 rounded-3xl;
+    box-shadow: 
+      0 4px 24px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  
+  /* Modern Button Styles */
+  .btn-primary {
+    @apply relative overflow-hidden bg-navy-900 text-white font-medium px-8 py-4 rounded-2xl
+           transition-all duration-300 ease-out
+           hover:shadow-glow hover:scale-[1.02]
+           active:scale-[0.98];
+  }
+  
+  .btn-primary::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-gold-400 to-gold-500 opacity-0 transition-opacity duration-300;
+  }
+  
+  .btn-primary:hover::before {
+    @apply opacity-100;
+  }
+  
+  .btn-primary span {
+    @apply relative z-10;
+  }
+  
+  .btn-secondary {
+    @apply bg-white text-navy-900 font-medium px-8 py-4 rounded-2xl border border-navy-100
+           transition-all duration-300
+           hover:border-gold-400 hover:shadow-lg hover:scale-[1.02]
+           active:scale-[0.98];
+  }
+  
+  .btn-gold {
+    @apply bg-gold-500 text-white font-semibold px-8 py-4 rounded-2xl
+           transition-all duration-300
+           hover:bg-gold-400 hover:shadow-glow hover:scale-[1.02]
+           active:scale-[0.98];
+  }
+  
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-navy-900 via-navy-700 to-navy-900 bg-clip-text text-transparent;
+    background-size: 200% auto;
+  }
+  
+  .gradient-text-gold {
+    @apply bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 bg-clip-text text-transparent;
+    background-size: 200% auto;
+  }
+  
+  /* Section Styles */
+  .section {
+    @apply relative w-full min-h-screen flex items-center justify-center py-20 lg:py-32;
+  }
+  
+  .section-alt {
+    @apply bg-gradient-to-br from-navy-50 via-white to-gold-50/30;
+  }
+  
+  /* Typography */
+  .heading-xl {
+    @apply font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[0.95];
+  }
+  
+  .heading-lg {
+    @apply font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1];
+  }
+  
+  .heading-md {
+    @apply font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.15];
+  }
+  
+  .heading-sm {
+    @apply font-display text-2xl sm:text-3xl font-semibold tracking-tight;
+  }
+  
+  .body-lg {
+    @apply text-lg sm:text-xl text-navy-600 leading-relaxed;
+  }
+  
+  .body-md {
+    @apply text-base sm:text-lg text-navy-600 leading-relaxed;
+  }
+  
+  /* Feature Card */
+  .feature-card {
+    @apply glass-card p-8 transition-all duration-500;
+  }
+  
+  .feature-card:hover {
+    @apply -translate-y-2;
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.08),
+      0 1px 2px rgba(0, 0, 0, 0.02),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  }
+  
+  /* Icon Container */
+  .icon-box {
+    @apply w-14 h-14 rounded-2xl bg-gradient-to-br from-gold-100 to-gold-200 
+           flex items-center justify-center text-gold-600
+           transition-transform duration-300;
+  }
+  
+  .feature-card:hover .icon-box {
+    @apply scale-110 rotate-3;
+  }
+  
+  /* Animated Background Blobs */
+  .blob {
+    @apply absolute rounded-full blur-3xl opacity-30;
+    animation: blob 7s infinite;
+  }
+  
+  .blob-1 {
+    @apply bg-gold-300;
+    animation-delay: 0s;
+  }
+  
+  .blob-2 {
+    @apply bg-navy-300;
+    animation-delay: 2s;
+  }
+  
+  .blob-3 {
+    @apply bg-gold-200;
+    animation-delay: 4s;
+  }
+  
+  /* Navigation */
+  .nav-link {
+    @apply relative text-navy-700 font-medium transition-colors duration-200 hover:text-navy-900;
+  }
+  
+  .nav-link::after {
+    content: '';
+    @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-gold-500 transition-all duration-300;
+  }
+  
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+  
+  /* Form Inputs */
+  .input-modern {
+    @apply w-full px-6 py-4 bg-white border-2 border-navy-100 rounded-2xl
+           text-navy-900 placeholder:text-navy-400
+           transition-all duration-300
+           focus:outline-none focus:border-gold-400 focus:ring-4 focus:ring-gold-100;
+  }
+  
+  /* Stats Counter */
+  .stat-number {
+    @apply font-display text-5xl sm:text-6xl font-bold gradient-text-gold;
+  }
+  
+  /* Testimonial Card */
+  .testimonial-card-modern {
+    @apply glass-card p-8 transition-all duration-500;
+  }
+  
+  .testimonial-card-modern:hover {
+    @apply scale-[1.02];
+    box-shadow: 
+      0 24px 48px rgba(0, 0, 0, 0.1),
+      0 1px 2px rgba(0, 0, 0, 0.02),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  }
+  
+  /* Process Step */
+  .process-step-modern {
+    @apply relative flex gap-6;
+  }
+  
+  .process-step-modern::before {
+    content: '';
+    @apply absolute left-6 top-14 w-0.5 h-full bg-gradient-to-b from-gold-400 to-transparent;
+  }
+  
+  .process-step-modern:last-child::before {
+    @apply hidden;
+  }
+  
+  .step-number-modern {
+    @apply flex-shrink-0 w-12 h-12 rounded-2xl bg-gradient-to-br from-gold-400 to-gold-500
+           text-white font-bold flex items-center justify-center text-lg
+           shadow-glow;
+  }
+  
+  /* Price Card */
+  .price-card {
+    @apply glass-card p-8 transition-all duration-500 relative overflow-hidden;
+  }
+  
+  .price-card-popular {
+    @apply border-2 border-gold-400;
+  }
+  
+  .price-card-popular::before {
+    content: 'Most Popular';
+    @apply absolute top-4 right-4 px-3 py-1 bg-gold-500 text-white text-xs font-semibold rounded-full;
+  }
+  
+  .price-card:hover {
+    @apply -translate-y-2;
+  }
+  
+  /* Tag/Badge */
+  .tag {
+    @apply inline-flex items-center px-4 py-2 rounded-full text-sm font-medium
+           bg-navy-100 text-navy-700 transition-all duration-300
+           hover:bg-gold-100 hover:text-gold-700;
+  }
+  
+  /* Scroll Indicator */
+  .scroll-indicator {
+    @apply absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2
+           text-navy-400 animate-bounce;
+  }
+  
+  /* Reveal Animation Classes */
+  .reveal {
+    @apply opacity-0 translate-y-8;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .reveal.active {
+    @apply opacity-100 translate-y-0;
+  }
+  
+  /* Stagger delays */
+  .stagger-1 { transition-delay: 0.1s; }
+  .stagger-2 { transition-delay: 0.2s; }
+  .stagger-3 { transition-delay: 0.3s; }
+  .stagger-4 { transition-delay: 0.4s; }
+  .stagger-5 { transition-delay: 0.5s; }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Selection */
+::selection {
+  background: rgba(212, 160, 48, 0.3);
+  color: #0d2244;
+}
