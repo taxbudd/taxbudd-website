@@ -7,6 +7,12 @@ import { translations } from '../translations';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// ─────────────────────────────────────────────────────────────
+// Envoi réel des messages via Formspree (configuré le 2026-10-06)
+// Formulaire : https://formspree.io/f/mbgddkrj → info@taxbudd.ca
+// ─────────────────────────────────────────────────────────────
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mbgddkrj";
+
 const ContactSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
@@ -24,6 +30,7 @@ const ContactSection = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -81,13 +88,34 @@ const ContactSection = () => {
     return () => ctx.revert();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError(false);
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          company: formData.company,
+          subject: formData.subject,
+          message: formData.message,
+          _subject: `Nouveau message du site TaxBudd — ${formData.subject || "sans sujet"}`,
+          _replyto: formData.email,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Envoi échoué (statut ${response.status})`);
+      }
+
       setIsSubmitted(true);
       setFormData({
         name: '',
@@ -97,7 +125,12 @@ const ContactSection = () => {
         subject: '',
         message: '',
       });
-    }, 1500);
+    } catch (err) {
+      console.error("Erreur d'envoi du formulaire :", err);
+      setSubmitError(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -178,6 +211,13 @@ const ContactSection = () => {
               </div>
             ) : (
               <>
+                {submitError && (
+                  <div className="mb-8 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
+                    {lang === 'fr'
+                      ? "Une erreur est survenue lors de l'envoi. Veuillez réessayer ou nous écrire directement à info@taxbudd.ca."
+                      : 'Something went wrong while sending. Please try again or email us directly at info@taxbudd.ca.'}
+                  </div>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                   <div className="w-full">
                     <label className="block text-sm font-medium text-navy-700 mb-2">
